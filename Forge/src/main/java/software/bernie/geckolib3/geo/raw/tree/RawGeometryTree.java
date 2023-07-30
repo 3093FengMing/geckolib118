@@ -54,7 +54,7 @@ public class RawGeometryTree {
 	}
 
 	public static RawBoneGroup getGroupFromHierarchy(RawGeometryTree hierarchy, String bone) {
-		HashMap<String, RawBoneGroup> flatList = new HashMap<>();
+		ConcurrentHashMap<String, RawBoneGroup> flatList = new ConcurrentHashMap<>();
 		for (RawBoneGroup group : hierarchy.topLevelBones.values()) {
 			flatList.put(group.selfBone.getName(), group);
 			traverse(flatList, group);
@@ -62,7 +62,7 @@ public class RawGeometryTree {
 		return flatList.get(bone);
 	}
 
-	public static void traverse(HashMap<String, RawBoneGroup> flatList, RawBoneGroup group) {
+	public static void traverse(ConcurrentHashMap<String, RawBoneGroup> flatList, RawBoneGroup group) {
 		for (RawBoneGroup child : group.children.values()) {
 			flatList.put(child.selfBone.getName(), child);
 			traverse(flatList, child);
